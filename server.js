@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' });
-const app = require('./app');
-
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
+const app = require("./app");
 
 const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
+  "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
 
@@ -13,28 +12,21 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .then(() => {
-    console.log('DB CONNECTION SUCCESSFUL');
+    console.log("DB CONNECTION SUCCESSFUL");
   });
 
-// const testTour = new Tour({
-//   name: 'The Forest Hicker',
-//   rating: 4.7,
-//   price: 495
-// });
-
-// testTour
-//   .save()
-//   .then(doc => {
-//     console.log(doc);
-//   })
-//   .catch(err => {
-//     console.log('ERROR 😑:', err);
-//   });
-
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
+});
+
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message);
+  console.log("Unchandled exception! Shutting down...");
+  server.close(() => {
+    process.exit(1);
+  });
 });
