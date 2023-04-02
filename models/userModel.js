@@ -7,6 +7,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "A User must have a name"],
   },
+  role: {
+    type: String,
+    enum: ["user", "guide", "lead-guide", "admin"],
+    default: "user",
+  },
   email: {
     type: String,
     lowercase: true,
