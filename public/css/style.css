@@ -299,6 +299,7 @@ body {
 }
 
 .header {
+  margin-bottom: 20px;
   background-color: #444;
   padding: 0 5rem;
   height: 8rem;
